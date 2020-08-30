@@ -6,3 +6,12 @@ env:
   browser: true
 
 extends: 'htmlacademy/es6'
+
+rules:
+  "semi": "off"
+  "arrow-parens": "off"
+  "comma-dangle": "off"
+  "require-jsdoc": "off"
+  "no-trailing-spaces": "off"
+  "operator-linebreak": "off"
+
