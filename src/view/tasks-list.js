@@ -5,10 +5,6 @@ const createTaskListTemplate = () => {
 }
 
 export default class TasksList extends AbstractComponent {
-  constructor() {
-    super()
-  }
-  
   getTemplate() {
     return createTaskListTemplate()
   }

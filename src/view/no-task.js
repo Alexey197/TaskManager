@@ -7,10 +7,6 @@ const createNoTaskTemplate = () => {
 }
 
 export default class NoTask extends AbstractComponent {
-  constructor() {
-    super()
-  }
-  
   getTemplate() {
     return createNoTaskTemplate();
   }

@@ -34,10 +34,6 @@ const createMenuTemplate = () => {
 }
 
 export default class Menu extends AbstractComponent {
-  constructor() {
-    super()
-  }
-  
   getTemplate() {
     return createMenuTemplate()
   }
