@@ -1,5 +1,6 @@
 import {COLORS} from '../const'
-import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate, createElement} from '../utils';
+import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from '../utils';
+import AbstractComponent from './abstractComponent';
 
 const BLANK_TASK = {
   color: COLORS[0],
@@ -130,25 +131,13 @@ const createTaskEditTemplate = (task) => {
   );
 };
 
-export default class TaskEdit {
+export default class TaskEdit extends AbstractComponent {
   constructor(task = BLANK_TASK) {
+    super()
     this._task = task;
-    this._element = null;
   }
   
   getTemplate() {
     return createTaskEditTemplate(this._task);
-  }
-  
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    
-    return this._element;
-  }
-  
-  removeElement() {
-    this._element = null;
   }
 }

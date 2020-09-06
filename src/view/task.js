@@ -1,4 +1,5 @@
-import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate, createElement} from '../utils';
+import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from '../utils';
+import AbstractComponent from './abstractComponent';
 
 const createTaskTemplate = (task) => {
   
@@ -69,25 +70,13 @@ const createTaskTemplate = (task) => {
   );
 }
 
-export default class TaskView {
+export default class TaskView extends AbstractComponent {
   constructor(task) {
+    super()
     this._task = task
-    this._element = null
   }
   
   getTemplate() {
     return createTaskTemplate(this._task)
-  }
-  
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate())
-    }
-    
-    return this._element
-  }
-  
-  removeElement() {
-    this._element = null
   }
 }
