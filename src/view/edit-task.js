@@ -1,5 +1,6 @@
+import AbstractView from './abstract';
 import {COLORS} from '../const'
-import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate, createElement} from '../utils';
+import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from '../utils/task';
 
 const BLANK_TASK = {
   color: COLORS[0],
@@ -83,11 +84,14 @@ const createTaskEditTemplate = (task) => {
     ? `card--deadline`
     : ``;
   const dateTemplate = createTaskEditDateTemplate(dueDate);
+  
   const repeatingClassName = isTaskRepeating(repeating)
     ? `card--repeat`
     : ``;
   const repeatingTemplate = createTaskEditRepeatingTemplate(repeating);
+  
   const colorsTemplate = createTaskEditColorsTemplate(color);
+  
   return (
     `<article class="card card--edit card--${color} ${deadlineClassName} ${repeatingClassName}">
       <form class="card__form" method="get">
@@ -97,6 +101,7 @@ const createTaskEditTemplate = (task) => {
               <use xlink:href="#wave"></use>
             </svg>
           </div>
+          
           <div class="card__textarea-wrap">
             <label>
               <textarea
@@ -106,13 +111,16 @@ const createTaskEditTemplate = (task) => {
               >${description}</textarea>
             </label>
           </div>
+          
           <div class="card__settings">
             <div class="card__details">
               <div class="card__dates">
                 ${dateTemplate}
+                
                 ${repeatingTemplate}
               </div>
             </div>
+            
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
@@ -120,6 +128,7 @@ const createTaskEditTemplate = (task) => {
               </div>
             </div>
           </div>
+          
           <div class="card__status-btns">
             <button class="card__save" type="submit">save</button>
             <button class="card__delete" type="button">delete</button>
@@ -130,25 +139,24 @@ const createTaskEditTemplate = (task) => {
   );
 };
 
-export default class TaskEdit {
-  constructor(task = BLANK_TASK) {
-    this._task = task;
-    this._element = null;
+export default class TaskEdit extends AbstractView {
+  constructor(task) {
+    super()
+    this._task = task || BLANK_TASK;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this)
+  }
+  
+  _formSubmitHandler(evt) {
+    evt.preventDefault()
+    this._callback.formSubmit()
+  }
+  
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler)
   }
   
   getTemplate() {
     return createTaskEditTemplate(this._task);
-  }
-  
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    
-    return this._element;
-  }
-  
-  removeElement() {
-    this._element = null;
   }
 }
