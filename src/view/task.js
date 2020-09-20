@@ -1,8 +1,7 @@
-import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from '../utils';
-import AbstractComponent from './abstractComponent';
+import Abstract from './abstract';
+import {isTaskExpired, isTaskRepeating, humanizeTaskDueDate} from '../utils/task';
 
 const createTaskTemplate = (task) => {
-  
   const {color, description, dueDate, repeating, isArchive, isFavorite} = task
   
   const date = dueDate !== null
@@ -25,8 +24,7 @@ const createTaskTemplate = (task) => {
     ? `card__btn--favorites card__btn--disabled`
     : `card__btn--favorites`;
   
-  return (
-    `<article class="card card--${color} ${deadlineClassName} ${repeatClassName}">
+  return `<article class="card card--${color} ${deadlineClassName} ${repeatClassName}">
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
@@ -43,15 +41,16 @@ const createTaskTemplate = (task) => {
               favorites
             </button>
           </div>
+          
           <div class="card__color-bar">
             <svg class="card__color-bar-wave" width="100%" height="10">
               <use xlink:href="#wave"></use>
             </svg>
           </div>
+          
           <div class="card__textarea-wrap">
             <p class="card__text">${description}</p>
           </div>
-          
           
           <div class="card__settings">
             <div class="card__details">
@@ -67,13 +66,23 @@ const createTaskTemplate = (task) => {
         </div>
       </div>
     </article>`
-  );
 }
 
-export default class TaskView extends AbstractComponent {
+export default class TaskView extends Abstract {
   constructor(task) {
     super()
     this._task = task
+    this._editClickHandler = this._editClickHandler.bind(this)
+  }
+  
+  _editClickHandler(evt) {
+    evt.preventDefault()
+    this._callback.editClick()
+  }
+  
+  setEditClickHandler(callback) {
+    this._callback.editClick = callback
+    this.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, this._editClickHandler)
   }
   
   getTemplate() {

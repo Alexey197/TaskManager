@@ -1,12 +1,13 @@
-import {createElement} from '../utils'
+import {createElement} from '../utils/render';
 
-export default class AbstractComponent {
+export default class Abstract {
   constructor() {
-    if (new.target === AbstractComponent) {
-      throw new Error(`Can't instantiate AbstractComponent, only concrete one`)
+    if (new.target === Abstract) {
+      throw new Error(`Can't instantiate Abstract, only concrete one`)
     }
   
     this._element = null
+    this._callback = {}
   }
   
   getTemplate() {

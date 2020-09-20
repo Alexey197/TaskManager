@@ -1,4 +1,4 @@
-import AbstractComponent from './abstractComponent';
+import AbstractView from './abstract';
 
 const createFilterItemTemplate = (filter, isChecked) => {
   const {name, count} = filter
@@ -28,7 +28,7 @@ const createFilterTemplate = (filterItems) => {
   </section>`;
 }
 
-export default class Filter extends AbstractComponent {
+export default class Filter extends AbstractView {
   constructor(filters) {
     super()
     this._filters = filters
